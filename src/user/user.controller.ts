@@ -7,6 +7,5 @@ export class UserController {
 
     @Get('test')
     getTest() {
-        return this.userService.test();
-    }
+        return this.userService.test();}
 }
