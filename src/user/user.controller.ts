@@ -9,5 +9,4 @@ export class UserController {
   getTest() {
     return this.userService.test();
   }
-
 }
