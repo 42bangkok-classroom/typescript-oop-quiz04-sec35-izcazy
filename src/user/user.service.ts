@@ -10,26 +10,11 @@ export class UserService {
     return [];
   }
 
-  async findAll(): IUser[] {}
-  findOne(id: string, file?: string[]){
-    const filepath = path.join(process.cwd(), 'data', 'user.json');
-    const users: IUser[] = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
-    const user = users.find((u) => u.id === id);
+  findAll(): IUser[] {
+    const filePath = path.join(process.cwd(), 'data', 'users.json');
+    const fileData = fs.readFileSync(filePath, 'utf-8');
+    const users: IUser[] = JSON.parse(fileData);
 
-    if(!user){
-      throw new NotFoundException('user not found');
-    }
-    if (file) {
-      // ระบุ Type ให้ชัดเจนว่าเป็น Partial<IUser> เพื่อแก้ Error ลินเตอร์
-      const filteredUser: Partial<IUser> = {};
-      file.forEach((field) => {
-        const key = field as keyof IUser;
-        if (user[key] !== undefined) {
-          filteredUser[key] = user[key];
-        }
-      });
-      return filteredUser;
-    }
-    return user;
+    return users;
   }
 }

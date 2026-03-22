@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
+import { IUser } from './user.interface';
 
 @Controller('users')
 export class UserController {
@@ -9,12 +10,8 @@ export class UserController {
   getTest() {
     return this.userService.test();
   }
-  users() {
+  @Get()
+  getAllUsers(): IUser[] {
     return this.userService.findAll();
-  }
-  @Get('id')
-  findOne(@Param('id') id: string, @Query('file') file?: string) {
-    const fileArray = file ? file.split(',') : undefined;
-    return this.userService.findOne(id, fileArray);
   }
 }
