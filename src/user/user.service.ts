@@ -14,9 +14,7 @@ export class UserService {
   findAll(): IUser[] {
     const filePath = path.join(process.cwd(), 'data', 'users.json');
     const fileData = fs.readFileSync(filePath, 'utf-8');
-    const users: IUser[] = JSON.parse(
-      fs.readFileSync(fileData, 'utf-8'),
-    ) as IUser[];
+    const users: IUser[] = JSON.parse(fileData) as IUser[];
 
     return users;
   }
