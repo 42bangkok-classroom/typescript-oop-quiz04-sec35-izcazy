@@ -28,8 +28,9 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('user not found');
     }
-    if (!fields || fields.length === 0) return user;
-
+    if (fields === undefined) {
+      return user;
+    }
     // ท่าที่ง่ายกว่า: ใช้ reduce เพื่อเลือกเฉพาะ field ที่ต้องการ
     return fields.reduce((acc, field) => {
       const key = field.trim() as keyof IUser;
