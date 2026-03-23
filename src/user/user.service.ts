@@ -3,10 +3,12 @@ import { IUser } from './user.interface';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as process from 'process';
+import { CreateUserDto } from './dto/create-user.dto';
 
 //p02
 @Injectable()
 export class UserService {
+  private readonly filePath = path.join(process.cwd(), 'data', 'users.json');
   test() {
     return [];
   }
@@ -18,6 +20,7 @@ export class UserService {
 
     return users;
   }
+  //p04
   findOne(id: string, fields?: string[]) {
     const filepath = path.join(process.cwd(), 'data', 'users.json');
     const users: IUser[] = JSON.parse(
@@ -37,5 +40,27 @@ export class UserService {
       if (user[key] !== undefined) acc[key] = user[key];
       return acc;
     }, {});
+  }
+  create(dto: CreateUserDto): IUser {
+    // 1. อ่านข้อมูลเดิมจากไฟล์
+    const fileContent = fs.readFileSync(this.filePath, 'utf-8');
+    const users: IUser[] = JSON.parse(fileContent) as IUser[];
+
+    // 2. Generate ID ใหม่ (เอา ID สูงสุด + 1)
+    const lastId =
+      users.length > 0 ? Math.max(...users.map((u) => parseInt(u.id))) : 0;
+    const newId = (lastId + 1).toString();
+
+    // 3. สร้าง User Object ใหม่
+    const newUser: IUser = {
+      id: newId,
+      ...dto,
+    };
+
+    // 4. เพิ่มลงใน Array และเขียนลงไฟล์
+    users.push(newUser);
+    fs.writeFileSync(this.filePath, JSON.stringify(users, null, 2), 'utf-8');
+
+    return newUser;
   }
 }
