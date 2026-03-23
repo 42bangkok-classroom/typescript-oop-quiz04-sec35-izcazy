@@ -10,7 +10,7 @@ export class UserService {
   test() {
     return [];
   }
-//p03
+  //p03
   findAll(): IUser[] {
     const filePath = path.join(process.cwd(), 'data', 'users.json');
     const fileData = fs.readFileSync(filePath, 'utf-8');
@@ -20,12 +20,12 @@ export class UserService {
   }
   findOne(id: string, fields?: string[]) {
     const filepath = path.join(process.cwd(), 'data', 'users.json');
-    const users: IUser[] = JSON.parse(fs.readFileSync(filepath, 'utf-8'))
+    const users: IUser[] = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
     const user = users.find((u) => u.id === id);
 
-    if(!user){
+    if (!user) {
       throw new NotFoundException('user not found');
-    };
+    }
     if (!fields || fields.length === 0) return user;
 
     // ท่าที่ง่ายกว่า: ใช้ reduce เพื่อเลือกเฉพาะ field ที่ต้องการ

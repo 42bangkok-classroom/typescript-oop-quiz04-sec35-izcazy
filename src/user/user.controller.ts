@@ -18,11 +18,8 @@ export class UserController {
   }
   //p04
   @Get(':id')
-  findOne(
-    @Param('id') id: string,
-    @Query('fields') fields?: string,
-  ){
-    const fieldsArray = fields ? fields.split(','): undefined;
+  findOne(@Param('id') id: string, @Query('fields') fields?: string) {
+    const fieldsArray = fields ? fields.split(',') : undefined;
 
     return this.userService.findOne(id, fieldsArray);
   }
