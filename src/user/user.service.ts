@@ -14,13 +14,17 @@ export class UserService {
   findAll(): IUser[] {
     const filePath = path.join(process.cwd(), 'data', 'users.json');
     const fileData = fs.readFileSync(filePath, 'utf-8');
-    const users: IUser[] = JSON.parse(fileData) as IUser[];
+    const users: IUser[] = JSON.parse(
+      fs.readFileSync(fileData, 'utf-8'),
+    ) as IUser[];
 
     return users;
   }
   findOne(id: string, fields?: string[]) {
     const filepath = path.join(process.cwd(), 'data', 'users.json');
-    const users: IUser[] = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
+    const users: IUser[] = JSON.parse(
+      fs.readFileSync(filepath, 'utf-8'),
+    ) as IUser[];
     const user = users.find((u) => u.id === id);
 
     if (!user) {
